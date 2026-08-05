@@ -14,7 +14,11 @@
     { id:"test2", data: REAL_2024_OCT13,
       label:"Mock Test 2",
       tag:"Coverage — fills what Test 1 doesn't repeat",
-      blurb:"150 questions from the 13 Oct 2024 real paper — 134 verbatim, 16 swapped for an unambiguous original on the same topic where the source had no verifiable answer key. Different real questions, same verified blueprint, so together the two tests cover far more of the real question-space than either alone." }
+      blurb:"150 questions from the 13 Oct 2024 real paper — 134 verbatim, 16 swapped for an unambiguous original on the same topic where the source had no verifiable answer key. Different real questions, same verified blueprint, so together the two tests cover far more of the real question-space than either alone." },
+    { id:"gapdrill", data: COVERAGE_SUPPLEMENT,
+      label:"Coverage Gap-Fill Drill",
+      tag:"11 Qs — official-syllabus topics neither real paper happened to test",
+      blurb:"Not a real paper. A topic-by-topic audit of the official syllabus against all 300 real questions above turned up specific named topics (Carl Rogers, Metacognition, Skinner/Pavlov/Bandura, letter writing, degrees of comparison, question tags, Time & Work) that are in scope for 2026 but weren't sampled in either real sitting. 11 short, original questions, clearly marked — insurance, not padding." }
   ];
 
   function hasUrdu(s){ return /[؀-ۿ]/.test(s||""); }
@@ -112,11 +116,11 @@
     APP.innerHTML = `
       <section class="hero">
         <h1>AP TET 2026 — Paper 1 Mock Tests <span class="urdu" style="font-size:1.3rem;display:block;margin-top:4px">اردو میڈیم</span></h1>
-        <p class="sub">Two full-length, exam-accurate simulations built entirely from real AP TET Paper 1A (Urdu medium) papers — Child Development &amp; Pedagogy, Language&#8209;I Urdu, Language&#8209;II English, Mathematics, and Environmental Studies. Practice both and you've worked through 300 distinct real-pattern questions across every topic the blueprint identifies.</p>
+        <p class="sub">Two full-length, exam-accurate simulations built entirely from real AP TET Paper 1A (Urdu medium) papers — Child Development &amp; Pedagogy, Language&#8209;I Urdu, Language&#8209;II English, Mathematics, and Environmental Studies — plus an 11-question drill covering the specific official-syllabus topics a subject-by-subject audit found missing from both real papers. 300 real + 11 targeted questions, nothing padded in between.</p>
         <div class="hero-stats">
-          <div class="stat"><b>2</b><span>Mock Tests</span></div>
-          <div class="stat"><b>150</b><span>Qs / Test</span></div>
-          <div class="stat"><b>150</b><span>Minutes / Test</span></div>
+          <div class="stat"><b>2</b><span>Full mock tests</span></div>
+          <div class="stat"><b>300</b><span>Real Qs total</span></div>
+          <div class="stat"><b>11</b><span>Gap-fill drill Qs</span></div>
           <div class="stat"><b>0</b><span>Negative marking</span></div>
         </div>
         <div class="urgent-banner">AP TET 2026 is being conducted 5–21 August 2026. If you're reading this during that window — good timing.</div>
@@ -160,18 +164,18 @@
       <div class="doc" style="max-width:820px">
         <h1>General Instructions</h1>
         <ol class="instr-list">
-          <li>The test contains <b>${qs.length} questions</b> for a total of <b>${qs.length} marks</b>. Time allotted is <b>150 minutes</b>. The clock starts the moment you click "I am ready, begin the test" below and will auto-submit your test when time expires.</li>
-          <li>The question paper has 5 sections — Child Development &amp; Pedagogy, Language I (Urdu), Language II (English), Mathematics, and Environmental Studies — 30 questions each. Every question, unless it is itself a language-content question, is shown in English and Urdu.</li>
+          <li>The test contains <b>${qs.length} questions</b> for a total of <b>${qs.length} marks</b>. Time allotted is <b>${Math.round(qs.length*(testId==='gapdrill'?1.5:1))} minutes</b>. The clock starts the moment you click "I am ready, begin the test" below and will auto-submit your test when time expires.</li>
+          <li>The question paper has ${test.data.sections.length} section${test.data.sections.length>1?'s':''} — ${test.data.sections.map(s=>`${s.title} (${s.questions.length})`).join(', ')}. Every question, unless it is itself a language-content question, is shown in English and Urdu where the source paper provided it.</li>
           <li>Every question is a Multiple Choice Question with 4 options, only one of which is correct. Click an option to select it.</li>
           <li><b>There is no negative marking.</b> Wrong and unattempted answers both score 0 — never a penalty. Attempt every question.</li>
           <li>Use <b>Save &amp; Next</b> to save your answer and move on, <b>Clear Response</b> to deselect your chosen option, and <b>Mark for Review &amp; Next</b> to flag a question to revisit — marked questions are still counted if answered.</li>
           <li>Navigate freely using the question palette on the right, or the section tabs at the top of the question — you do not have to answer in order.</li>
           <li>The palette colour legend:
             <div class="legend" style="margin:10px 0 0;display:grid;grid-template-columns:repeat(2,auto);gap:6px 22px">
-              <div><span class="sw" style="background:var(--notvisited)"></span>Not visited</div>
-              <div><span class="sw" style="background:var(--bad)"></span>Not answered</div>
-              <div><span class="sw" style="background:var(--good)"></span>Answered</div>
-              <div><span class="sw" style="background:var(--marked)"></span>Marked for review</div>
+              <div><span class="sw shield" style="background:var(--pal-notvisited)"></span>Not visited</div>
+              <div><span class="sw shield" style="background:var(--pal-notanswered)"></span>Not answered</div>
+              <div><span class="sw shield" style="background:var(--pal-answered)"></span>Answered</div>
+              <div><span class="sw" style="background:var(--pal-marked);border-radius:50%"></span>Marked for review</div>
             </div>
           </li>
           <li>Click <b>Submit Test</b> at any time to end early, or let the timer reach zero for auto-submission. You'll see a summary of answered/unanswered/marked questions before final confirmation.</li>
@@ -209,7 +213,8 @@
       answers: new Array(qs.length).fill(null),
       visited: new Array(qs.length).fill(false),
       marked: new Array(qs.length).fill(false),
-      totalSeconds: 150*60,
+      draft: null, draftIndex: -1,
+      totalSeconds: Math.round(qs.length*(testId==='gapdrill'?1.5:1))*60,
       submitted: false
     };
     nav('exam');
@@ -237,11 +242,11 @@
           <h4>Status summary</h4>
           <div id="statsBox" class="statsmini"></div>
           <div class="legend">
-            <div><span class="sw" style="background:var(--notvisited)"></span>Not visited</div>
-            <div><span class="sw" style="background:var(--bad)"></span>Not answered</div>
-            <div><span class="sw" style="background:var(--good)"></span>Answered</div>
-            <div><span class="sw" style="background:var(--marked)"></span>Marked for review</div>
-            <div><span class="sw" style="background:var(--answered-marked)"></span>Answered &amp; Marked for review</div>
+            <div><span class="sw shield" style="background:var(--pal-notvisited)"></span>Not visited</div>
+            <div><span class="sw shield" style="background:var(--pal-notanswered)"></span>Not answered</div>
+            <div><span class="sw shield" style="background:var(--pal-answered)"></span>Answered</div>
+            <div><span class="sw" style="background:var(--pal-marked);border-radius:50%"></span>Marked for review</div>
+            <div><span class="sw" style="background:var(--pal-marked);border-radius:50%;box-shadow:inset 0 0 0 2px #6ea034"></span>Answered &amp; Marked for review</div>
           </div>
           <h4>Question palette</h4>
           <div class="palette" id="paletteBox"></div>
@@ -307,14 +312,21 @@
     `;
   }
 
+  // Real CBT behaviour (verified against the Digialm platform AP TET runs on): clicking an
+  // option only stages a draft selection. It is NOT recorded as your answer — and is lost if
+  // you navigate away — until you press Save & Next or Mark for Review & Next.
   function renderQuestion(){
     const i = state.current;
     const q = state.questions[i];
     state.visited[i] = true;
+    if(state.draftIndex !== i){
+      state.draft = state.answers[i];
+      state.draftIndex = i;
+    }
     const sectionTotal = state.questions.filter(x=>x.key===q.key).length;
 
     const optionsHtml = q.opts.map((optText,oi)=>{
-      const selected = state.answers[i]===oi;
+      const selected = state.draft===oi;
       const isUr = hasUrdu(optText);
       return `
         <label class="opt ${selected?'selected':''}" data-opt="${oi}">
@@ -350,18 +362,20 @@
 
     document.getElementById('qpanelBox').querySelectorAll('[data-opt]').forEach(el=>{
       el.addEventListener('click',()=>{
-        state.answers[i] = parseInt(el.getAttribute('data-opt'),10);
-        refreshAll();
+        state.draft = parseInt(el.getAttribute('data-opt'),10);
+        renderQuestion();
       });
     });
-    document.getElementById('clearBtn').addEventListener('click',()=>{ state.answers[i]=null; refreshAll(); });
+    document.getElementById('clearBtn').addEventListener('click',()=>{ state.draft=null; renderQuestion(); });
     document.getElementById('markBtn').addEventListener('click',()=>{
-      state.marked[i]=!state.marked[i];
+      state.answers[i] = state.draft;
+      state.marked[i]=true;
       if(i<state.questions.length-1) state.current++;
       refreshAll();
     });
     document.getElementById('prevBtn').addEventListener('click',()=>{ if(i>0){ state.current--; refreshAll(); } });
     document.getElementById('nextBtn').addEventListener('click',()=>{
+      state.answers[i] = state.draft;
       if(i<state.questions.length-1){ state.current++; refreshAll(); }
       else { openSubmitModal(); }
     });

@@ -23,6 +23,13 @@
   --exam-navy2:#0e3a63;
   --exam-bg:#e9edf1;
   --exam-line:#c3ccd4;
+  /* question-palette colours — matched to the actual Digialm CBT platform AP TET runs on
+     (verified against ssc.digialm.com's public instructions preview, same vendor/template) */
+  --pal-notvisited:#dcdcdc;
+  --pal-notvisited-ink:#3a3a3a;
+  --pal-notanswered:#d9782d;
+  --pal-answered:#6ea034;
+  --pal-marked:#8c67b8;
   font-size:16px;
 }
 *{box-sizing:border-box}
@@ -43,6 +50,38 @@ body{
 }
 button{font-family:inherit;cursor:pointer}
 a{color:var(--brand)}
+
+/* ---------- intro splash ---------- */
+.intro-splash{
+  position:fixed;inset:0;z-index:9999;
+  display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(120% 120% at 50% 30%,#0e2a44 0%,#081b2e 55%,#061420 100%);
+  animation:introOut .6s ease-in 1.9s forwards;
+}
+.intro-inner{
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  opacity:0;transform:translateY(10px) scale(.97);
+  animation:introIn .8s cubic-bezier(.16,.9,.35,1) .15s forwards;
+}
+.intro-shield{width:64px;height:76px;margin-bottom:22px;filter:drop-shadow(0 2px 10px rgba(200,145,47,.25))}
+.intro-rule{width:64px;height:1px;background:linear-gradient(90deg,transparent,rgba(200,145,47,.65),transparent);margin:16px 0}
+.intro-word{margin:0;font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:3rem;letter-spacing:.01em;line-height:1}
+.intro-word-a{color:#f5f1e6}
+.intro-word-b{color:#d99a3d;margin-left:.2em}
+.intro-tag{margin:0;color:#7d93a8;font-size:.72rem;letter-spacing:.16em;font-weight:600}
+.intro-by{margin:18px 0 0;color:#8296a9;font-size:.8rem;letter-spacing:.12em;font-weight:600}
+.intro-by span{font-family:Georgia,'Times New Roman',serif;font-style:italic;color:#d9b264;font-size:1rem;letter-spacing:0;font-weight:700;margin-left:.4em}
+
+@keyframes introIn{
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes introOut{
+  to{opacity:0;visibility:hidden;pointer-events:none}
+}
+@media (prefers-reduced-motion: reduce){
+  .intro-splash{animation-delay:.5s;animation-duration:.01s}
+  .intro-inner{animation:none;opacity:1;transform:none}
+}
 
 /* ---------- topbar ---------- */
 .topbar{
@@ -172,11 +211,11 @@ body.examlock main#app{max-width:none;margin:0;padding:0;min-height:100vh}
 .timer.low{background:#7a1f1f;color:#ffdada;border-color:#a63333;animation:pulse-low 1s infinite}
 @keyframes pulse-low{0%,100%{opacity:1}50%{opacity:.72}}
 
-.qpanel{background:#fff;border:1px solid var(--exam-line);border-radius:4px;padding:22px 26px;box-shadow:0 1px 2px rgba(10,38,71,.06)}
-.qpanel .qmeta{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--exam-line);color:var(--ink-soft);font-size:.82rem;font-weight:600}
+.qpanel{background:#fff;border:1px solid var(--exam-line);border-radius:4px;padding:22px 26px;box-shadow:0 1px 2px rgba(10,38,71,.06);font-family:'Times New Roman',Times,Georgia,serif}
+.qpanel .qmeta{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--exam-line);color:var(--ink-soft);font-size:.82rem;font-weight:600;font-family:'Inter',sans-serif}
 .badge{background:var(--exam-bg);color:var(--exam-navy2);padding:4px 11px;border-radius:3px;border:1px solid var(--exam-line);font-weight:700;display:inline-block}
-.qtext{font-size:1.06rem;font-weight:600;margin-bottom:8px;color:#111}
-.qtext-ur{font-size:1.3rem;margin-bottom:18px;color:#111}
+.qtext{font-size:1.15rem;font-weight:400;margin-bottom:8px;color:#000;line-height:1.5}
+.qtext-ur{font-size:1.35rem;margin-bottom:18px;color:#000}
 .options{display:flex;flex-direction:column;gap:0;margin-top:18px;border:1px solid var(--exam-line);border-radius:4px;overflow:hidden}
 .opt{
   display:flex;align-items:flex-start;gap:12px;
@@ -187,8 +226,8 @@ body.examlock main#app{max-width:none;margin:0;padding:0;min-height:100vh}
 .opt:hover{background:#f4f8fb}
 .opt.selected{background:#e7f0f9}
 .opt input[type="radio"]{margin-top:3px;width:16px;height:16px;accent-color:var(--exam-navy2)}
-.opt-en{font-size:.97rem;color:#111}
-.opt-ur{font-size:1.15rem;margin-top:2px;color:#111}
+.opt-en{font-size:1.05rem;color:#000}
+.opt-ur{font-size:1.2rem;margin-top:2px;color:#000}
 .opt-label{font-weight:700;color:#333;min-width:20px}
 
 /* review coloring (post-submit only) */
@@ -213,17 +252,24 @@ body.examlock main#app{max-width:none;margin:0;padding:0;min-height:100vh}
 .candidatebox .croll{font-size:.74rem;color:var(--ink-soft)}
 .legend{display:flex;flex-direction:column;gap:7px;margin-bottom:14px;font-size:.76rem;color:#333}
 .legend .sw{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:2px;margin-right:7px;vertical-align:-3px;color:#fff;font-size:.6rem;font-weight:800}
-.palette{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:16px;max-height:320px;overflow-y:auto;padding-right:2px}
+.palette{display:grid;grid-template-columns:repeat(5,1fr);gap:8px 6px;margin-bottom:16px;max-height:320px;overflow-y:auto;padding-right:2px}
+/* shapes/colours modelled on the actual Digialm CBT platform AP TET runs on:
+   not-visited/not-answered/answered share a shield/ribbon badge shape;
+   marked states are circles — this distinction is real, not decorative. */
 .pnum{
-  aspect-ratio:1;border-radius:3px;border:1px solid rgba(0,0,0,.08);font-weight:700;font-size:.78rem;
-  display:flex;align-items:center;justify-content:center;color:#fff;background:var(--notvisited);position:relative;
+  aspect-ratio:1;border:1px solid rgba(0,0,0,.12);font-weight:700;font-size:.8rem;font-family:'Inter',sans-serif;
+  display:flex;align-items:center;justify-content:center;color:var(--pal-notvisited-ink);background:var(--pal-notvisited);position:relative;
+  clip-path:polygon(0% 0%,100% 0%,100% 78%,50% 100%,0% 78%);
 }
-.pnum.answered{background:var(--good)}
-.pnum.marked{background:var(--marked)}
-.pnum.notanswered{background:var(--bad)}
-.pnum.answeredmarked{background:var(--answered-marked)}
-.pnum.answeredmarked::after{content:'';position:absolute;bottom:2px;right:2px;width:5px;height:5px;border-radius:50%;background:var(--good)}
-.pnum.current{outline:2px solid var(--accent);outline-offset:1px}
+.pnum.notanswered{background:var(--pal-notanswered);color:#fff;border-color:#b8631f}
+.pnum.answered{background:var(--pal-answered);color:#fff;border-color:#568028}
+.pnum.marked,.pnum.answeredmarked{clip-path:none;border-radius:50%;background:var(--pal-marked);color:#fff;border-color:#6f4f96}
+.pnum.answeredmarked::after{
+  content:'✓';position:absolute;top:-3px;left:-3px;width:13px;height:13px;border-radius:50%;
+  background:var(--pal-answered);color:#fff;font-size:.55rem;line-height:13px;text-align:center;border:1px solid #fff;
+}
+.pnum.current{outline:2px solid var(--accent);outline-offset:2px}
+.legend .sw.shield{clip-path:polygon(0% 0%,100% 0%,100% 78%,50% 100%,0% 78%);border-radius:0}
 
 .sectionjump{display:flex;flex-direction:column;gap:4px;margin-bottom:14px}
 .sectionjump button{

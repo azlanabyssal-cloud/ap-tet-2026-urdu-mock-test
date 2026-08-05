@@ -89,3 +89,22 @@ Cross-checked CDP and Language-I Urdu questions from the **Oct 2024** sitting (t
 - No structural change in marks distribution, timing, or negative-marking policy between the two years, and the 2026 official notification confirms the same 150/150/150 structure.
 
 **Conclusion: 2026 will very likely follow the identical blueprint above.** The only genuinely new-for-2026 risk area is current-events-style policy questions (NEP 2020 implementation updates, any newer NCF revision, newer digital-education schemes) — treat "policy & current scheme" as the one category worth actively refreshing right up to your exam date, everything else in this blueprint is stable.
+
+## 6. Coverage audit — official syllabus vs. the 300 real questions, topic by topic
+
+Sections 3–5 above describe what *actually appeared* in the two real papers sampled. That is not automatically the same as the full official syllabus — each real sitting only asks 30 questions per subject, so a subject with a large syllabus can easily go a whole sitting without touching every named topic purely by chance, not because the topic is out of scope.
+
+To check this properly, every question in both real papers was checked against the official AP TET syllabus topic list (SCERT, as reproduced by Adda247/Careerpower/Testbook) subject by subject. Result: coverage is genuinely strong — EVS and Language-I Urdu in particular already touch nearly every named syllabus strand. Three subjects had specific, named gaps:
+
+| Subject | Official-syllabus topic | Status in the 300 real questions |
+|---|---|---|
+| CDP | Carl Rogers | Named in the syllabus theorist list; never the subject of a question |
+| CDP | Metacognition | Explicit syllabus topic; never tested |
+| CDP | Skinner / Pavlov / Bandura | Named in the syllabus; appear only as *wrong-answer options* in real questions about other theorists — never the direct subject |
+| English | Letter writing / précis writing | Explicit syllabus line item; no question in either real paper |
+| English | Degrees of comparison | Explicit grammar topic; not directly tested |
+| English | Question tags | Explicit grammar topic; not directly tested |
+| Maths | Time & Work | Standard arithmetic topic under the syllabus's "Arithmetic" head; not tested (Simple Interest *was* tested once) |
+| Maths | Explicit average/mean calculation | Median and mode both appear; a direct mean calculation does not |
+
+These are not guesses about what "might" be tested — they're the specific syllabus topics that are demonstrably in scope (named in the official document) and demonstrably under-sampled (checked against all 300 real questions, not assumed). The **Coverage Gap-Fill Drill** (11 questions, clearly marked as original, not verbatim) exists specifically to cover these eight items and nothing else — it is not padding, and it does not try to cover the entire syllabus from scratch, because the 300 real questions already do that job for everything not listed in the table above.
