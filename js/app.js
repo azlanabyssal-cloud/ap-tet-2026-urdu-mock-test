@@ -29,7 +29,7 @@
       sec.questions.forEach((q,i)=>{
         out.push({
           key: sec.key, sectionTitle: sec.title, indexInSection: i,
-          n: q.n, en: q.en||null, ur: q.ur||null, opts: q.opts, ans: q.ans,
+          n: q.n, en: q.en||null, ur: q.ur||null, opts: q.opts, optsUr: q.optsUr||null, ans: q.ans,
           note: q.note||null, src: q.src||null
         });
       });
@@ -328,11 +328,15 @@
     const optionsHtml = q.opts.map((optText,oi)=>{
       const selected = state.draft===oi;
       const isUr = hasUrdu(optText);
+      const urText = q.optsUr ? q.optsUr[oi] : null;
       return `
         <label class="opt ${selected?'selected':''}" data-opt="${oi}">
           <input type="radio" name="opt" ${selected?'checked':''}>
           <span class="opt-label">${oi+1}.</span>
-          <span class="${isUr?'urdu opt-ur':'opt-en'}">${optText}</span>
+          <span class="opt-text-wrap">
+            <span class="${isUr?'urdu opt-ur':'opt-en'}">${optText}</span>
+            ${urText ? `<span class="urdu opt-ur opt-ur-sub">${urText}</span>` : ''}
+          </span>
         </label>
       `;
     }).join('');
@@ -471,7 +475,8 @@
         if(oi===q.ans) cls='correct';
         else if(oi===a && a!==q.ans) cls='incorrect';
         const isUr = hasUrdu(optText);
-        return `<div class="opt ${cls}"><span class="opt-label">${oi+1}.</span><span class="${isUr?'urdu opt-ur':'opt-en'}">${optText}</span></div>`;
+        const urText = q.optsUr ? q.optsUr[oi] : null;
+        return `<div class="opt ${cls}"><span class="opt-label">${oi+1}.</span><span class="opt-text-wrap"><span class="${isUr?'urdu opt-ur':'opt-en'}">${optText}</span>${urText ? `<span class="urdu opt-ur opt-ur-sub">${urText}</span>` : ''}</span></div>`;
       }).join('');
       return `
         <div class="reviewitem">

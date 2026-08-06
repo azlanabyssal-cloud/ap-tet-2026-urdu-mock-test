@@ -226,8 +226,10 @@ body.examlock main#app{max-width:none;margin:0;padding:0;min-height:100vh}
 .opt:hover{background:#f4f8fb}
 .opt.selected{background:#e7f0f9}
 .opt input[type="radio"]{margin-top:3px;width:16px;height:16px;accent-color:var(--exam-navy2)}
+.opt-text-wrap{display:flex;flex-direction:column;gap:2px;flex:1}
 .opt-en{font-size:1.05rem;color:#000}
 .opt-ur{font-size:1.2rem;margin-top:2px;color:#000}
+.opt-ur-sub{font-size:1.02rem;margin-top:0;color:#333}
 .opt-label{font-weight:700;color:#333;min-width:20px}
 
 /* review coloring (post-submit only) */
