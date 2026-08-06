@@ -8,17 +8,13 @@
 
   const TESTS = [
     { id:"test1", data: REAL_2025_DEC,
-      label:"Mock Test 1",
-      tag:"Core — highest-yield real paper",
-      blurb:"150 questions verbatim from the official 13 Dec 2025 AP TET Paper 1A (Urdu medium) exam, with the government's own answer key. Start here — this is the single most representative real paper available for the 2026 pattern." },
-    { id:"test2", data: REAL_2024_OCT13,
-      label:"Mock Test 2",
-      tag:"Coverage — fills what Test 1 doesn't repeat",
-      blurb:"150 questions from the 13 Oct 2024 real paper — 134 verbatim, 16 swapped for an unambiguous original on the same topic where the source had no verifiable answer key. Different real questions, same verified blueprint, so together the two tests cover far more of the real question-space than either alone." },
-    { id:"gapdrill", data: COVERAGE_SUPPLEMENT,
-      label:"Coverage Gap-Fill Drill",
-      tag:"11 Qs — official-syllabus topics neither real paper happened to test",
-      blurb:"Not a real paper. A topic-by-topic audit of the official syllabus against all 300 real questions above turned up specific named topics (Carl Rogers, Metacognition, Skinner/Pavlov/Bandura, letter writing, degrees of comparison, question tags, Time & Work) that are in scope for 2026 but weren't sampled in either real sitting. 11 short, original questions, clearly marked — insurance, not padding." }
+      label:"Mock Test 1 — Real Paper",
+      tag:"Verbatim — the actual 13 Dec 2025 exam",
+      blurb:"150 questions verbatim from the official 13 Dec 2025 AP TET Paper 1A (Urdu medium) exam, with the government's own answer key. This is a genuine past paper — take it exactly like the real thing." },
+    { id:"test2", data: EXPERT_PREDICTED_2026,
+      label:"Mock Test 2 — Full-Syllabus Practice",
+      tag:"100% original — built to cover everything Test 1 can't",
+      blurb:"Not a past paper. 150 originally-written questions covering the complete official syllabus — every topic a real sitting can miss by only sampling 30 questions per subject, including named gaps (Carl Rogers, Metacognition, Skinner/Pavlov/Bandura, letter writing, degrees of comparison, question tags, Time & Work, averages) confirmed absent from the real papers in this project. Same format, same difficulty, same bilingual style as the real exam — written to be worth practicing on its own merits, not to imitate a leak." }
   ];
 
   function hasUrdu(s){ return /[؀-ۿ]/.test(s||""); }
@@ -116,11 +112,11 @@
     APP.innerHTML = `
       <section class="hero">
         <h1>AP TET 2026 — Paper 1 Mock Tests <span class="urdu" style="font-size:1.3rem;display:block;margin-top:4px">اردو میڈیم</span></h1>
-        <p class="sub">Two full-length, exam-accurate simulations built entirely from real AP TET Paper 1A (Urdu medium) papers — Child Development &amp; Pedagogy, Language&#8209;I Urdu, Language&#8209;II English, Mathematics, and Environmental Studies — plus an 11-question drill covering the specific official-syllabus topics a subject-by-subject audit found missing from both real papers. 300 real + 11 targeted questions, nothing padded in between.</p>
+        <p class="sub">Two full-length, exam-accurate simulations — Child Development &amp; Pedagogy, Language&#8209;I Urdu, Language&#8209;II English, Mathematics, and Environmental Studies. Test 1 is the actual 13 Dec 2025 exam, verbatim. Test 2 is 150 originally-written questions built to cover the complete official syllabus — including exactly the topics a real sitting can miss just by only sampling 30 questions per subject.</p>
         <div class="hero-stats">
           <div class="stat"><b>2</b><span>Full mock tests</span></div>
-          <div class="stat"><b>300</b><span>Real Qs total</span></div>
-          <div class="stat"><b>11</b><span>Gap-fill drill Qs</span></div>
+          <div class="stat"><b>300</b><span>Total questions</span></div>
+          <div class="stat"><b>150</b><span>Minutes / test</span></div>
           <div class="stat"><b>0</b><span>Negative marking</span></div>
         </div>
         <div class="urgent-banner">AP TET 2026 is being conducted 5–21 August 2026. If you're reading this during that window — good timing.</div>
@@ -164,7 +160,7 @@
       <div class="doc" style="max-width:820px">
         <h1>General Instructions</h1>
         <ol class="instr-list">
-          <li>The test contains <b>${qs.length} questions</b> for a total of <b>${qs.length} marks</b>. Time allotted is <b>${Math.round(qs.length*(testId==='gapdrill'?1.5:1))} minutes</b>. The clock starts the moment you click "I am ready, begin the test" below and will auto-submit your test when time expires.</li>
+          <li>The test contains <b>${qs.length} questions</b> for a total of <b>${qs.length} marks</b>. Time allotted is <b>${qs.length} minutes</b>. The clock starts the moment you click "I am ready, begin the test" below and will auto-submit your test when time expires.</li>
           <li>The question paper has ${test.data.sections.length} section${test.data.sections.length>1?'s':''} — ${test.data.sections.map(s=>`${s.title} (${s.questions.length})`).join(', ')}. Every question, unless it is itself a language-content question, is shown in English and Urdu where the source paper provided it.</li>
           <li>Every question is a Multiple Choice Question with 4 options, only one of which is correct. Click an option to select it.</li>
           <li><b>There is no negative marking.</b> Wrong and unattempted answers both score 0 — never a penalty. Attempt every question.</li>
@@ -214,7 +210,7 @@
       visited: new Array(qs.length).fill(false),
       marked: new Array(qs.length).fill(false),
       draft: null, draftIndex: -1,
-      totalSeconds: Math.round(qs.length*(testId==='gapdrill'?1.5:1))*60,
+      totalSeconds: qs.length*60,
       submitted: false
     };
     nav('exam');

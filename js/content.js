@@ -126,14 +126,14 @@ const BLUEPRINT_HTML = `
     <tr><td>Maths</td><td>Time &amp; Work</td><td>Standard arithmetic topic in the syllabus; not tested (Simple Interest was)</td></tr>
     <tr><td>Maths</td><td>Average / mean</td><td>Median &amp; mode both appear; a direct mean calculation doesn't</td></tr>
   </table>
-  <p>These are not guesses about what "might" come up — they're syllabus topics that are demonstrably in scope and demonstrably under-sampled. The <strong>Coverage Gap-Fill Drill</strong> (11 questions on the home page) exists specifically for these eight items and nothing else. It is not padding: everything else in the syllabus is already covered by the 300 real questions in the two full mock tests.</p>
+  <p>These are not guesses about what "might" come up — they're syllabus topics that are demonstrably in scope and demonstrably under-sampled. <strong>Mock Test 2</strong> was written specifically to cover these eight items, plus the complete rest of the syllabus, proportionally, in the exact same 5-section / 30-per-subject structure as the real exam. It is not padding — it's the answer to a real, checked gap.</p>
 </div>
 `;
 
 const SOURCES_HTML = `
 <div class="doc">
   <h1>Data provenance</h1>
-  <p class="lede">Read this before trusting any question in this project. Three question sets, three different provenance levels — the UI tells you which one you're looking at on every single question.</p>
+  <p class="lede">Read this before trusting any question in this project. Two question sets, two very different kinds of "real" — verbatim vs. built-to-cover-the-syllabus — and the UI never blurs the line between them.</p>
 
   <h2>Mock Test 1 — 150 Qs, fully real, fully key-verified</h2>
   <p>All 150 questions, verbatim, from the actual AP TET <strong>Paper 1A (SGT, Classes I–V), Urdu medium</strong>, conducted <strong>13 December 2025, Shift 1</strong> by the Commissionerate of School Education, Government of Andhra Pradesh.</p>
@@ -144,22 +144,26 @@ const SOURCES_HTML = `
     <li>If you're relying on exact spelling/diacritics for serious study, cross-check against the source PDF — that's what it's there for.</li>
   </ul>
 
-  <h2>Mock Test 2 — 150 Qs, 134 verbatim + 16 authored</h2>
-  <p>From the real <strong>Paper 1A, Urdu medium, 13 October 2024, Shift 2</strong> sitting.</p>
+  <h2>Mock Test 2 — 150 Qs, 100% originally authored, NOT a past paper</h2>
+  <p>This is deliberately <strong>not</strong> another transcribed real paper. A real sitting only samples 30 questions per subject out of a much larger syllabus — so even a second genuine past paper would still miss named, in-scope topics by chance (see the Blueprint page, section 6, for the specific gaps found). Mock Test 2 was written to close that gap directly:</p>
   <ul>
-    <li>Source PDF: <a href="assets/SOURCE_2024_Oct13_Shift2_Paper1A_Urdu.pdf" target="_blank">SOURCE_2024_Oct13_Shift2_Paper1A_Urdu.pdf</a> — a genuine CBT export, but a plain question paper (no colour-coded key). The separate official key PDF could not be retrieved (government portal 503 throughout collection).</li>
-    <li><strong>134 questions</strong>: verbatim question/option text, with the correct answer independently determined through subject-matter verification against standard reference facts (e.g. Ebbinghaus wrote "On Memory", Samuel Kirk coined "learning disability", LCM(15,21)=105) — not guessed.</li>
-    <li><strong>16 questions</strong>: the source text was ambiguous or not independently verifiable with confidence. Rather than present a possibly-wrong answer as verified, these were swapped for an original, unambiguous question on the <em>same topic</em> — marked <code>src:"authored"</code> in the data and shown with an "Authored replacement" badge on the results/review screen. Never silently presented as verbatim.</li>
+    <li>Built from a topic checklist covering the <strong>complete official AP TET syllabus</strong>, subject by subject, in the same 5-section / 30-questions-per-subject structure as the real exam — including the 8 confirmed gap topics (Carl Rogers, Metacognition, Skinner, Pavlov, Bandura, letter writing, degrees of comparison, question tags, Time &amp; Work, averages).</li>
+    <li>Every question is written to match the real exam's actual question <em>formats</em> observed across both real papers in this project (theorist-quote attribution, matching pairs, "identify the incorrect statement", fill-in-the-blank grammar, word problems) — not invented formats.</li>
+    <li>Every Maths answer was mechanically re-verified by running the arithmetic in code, independent of the value written in the question — not just checked by eye.</li>
+    <li>Urdu vocabulary was cross-checked against the verified real-paper terminology in Mock Test 1 wherever the same concept appears in both (e.g. اکتساب for learning, شخصیت for personality, مرحلہ for stage) to keep register and word choice consistent with what AP TET actually uses. A small number of technical terms not present in either real paper (e.g. "Zone of Proximal Development") don't have a verified official Urdu rendering to check against — that specific limit is disclosed here rather than glossed over.</li>
+    <li>Unlike Mock Test 1, there's no verbatim/authored split to flag per-question — <strong>the entire test is originally written</strong>, declared once here and in its own label, rather than repeated as a badge on all 150 questions.</li>
   </ul>
 
-  <h2>Coverage Gap-Fill Drill — 11 Qs, 100% original</h2>
-  <p>Not a real paper. Built by auditing the official AP TET syllabus, topic by topic, against all 300 questions above (see the Blueprint page, section 6) — 8 specific syllabus topics were found to be in scope for 2026 but not directly tested in either real sitting. All 11 questions here are original, target exactly those gaps, and are marked <code>src:"authored"</code> with a note on every question explaining which gap it covers.</p>
-
-  <h2>Reference-only, not loaded into any scored test</h2>
-  <p><a href="assets/SOURCE_2024_Oct6_Shift1_Paper1_SGT_Urdu.pdf" target="_blank">SOURCE_2024_Oct6_Shift1_Paper1_SGT_Urdu.pdf</a> — a third genuine AP TET Paper 1 Urdu-medium paper (SGT, 6 Oct 2024, Shift 1), used only to cross-check the topic pattern is stable year-over-year (confirmed). Not loaded into the site: like Mock Test 2's source it has no retrievable key, and a second "verbatim-plus-authored" test wasn't judged worth the added transcription risk once the gap-fill drill covered syllabus breadth more precisely.</p>
+  <h2>Real papers kept for reference, not loaded as a scored test</h2>
+  <p>Two more genuine AP TET Paper 1 Urdu-medium papers were downloaded and used to verify that the topic pattern is stable year-over-year (confirmed — same CDP theorist roster, same Urdu-grammar/literature style, same Maths/EVS pedagogy format):</p>
+  <ul>
+    <li><a href="assets/SOURCE_2024_Oct13_Shift2_Paper1A_Urdu.pdf" target="_blank">SOURCE_2024_Oct13_Shift2_Paper1A_Urdu.pdf</a> — Paper 1A, Urdu medium, 13 Oct 2024, Shift 2.</li>
+    <li><a href="assets/SOURCE_2024_Oct6_Shift1_Paper1_SGT_Urdu.pdf" target="_blank">SOURCE_2024_Oct6_Shift1_Paper1_SGT_Urdu.pdf</a> — Paper 1 SGT, Urdu medium, 6 Oct 2024, Shift 1.</li>
+  </ul>
+  <p>Neither has a retrievable official answer key (government portal 503 throughout collection), so neither is loaded into the scored engine. Their real value — confirming the pattern is stable — is already folded into the Blueprint page and into how Mock Test 2 was designed.</p>
 
   <h2>What is NOT in this project</h2>
-  <p>No question anywhere was invented, paraphrased from memory, or reconstructed from a coaching-site summary <strong>and presented as if it were a real past question</strong>. Every question is exactly one of three things, and the UI always says which: (1) verbatim with a verified key, (2) verbatim text with an independently-verified answer, or (3) original content explicitly marked "authored" with a note explaining why.</p>
+  <p>No question anywhere was invented, paraphrased from memory, or reconstructed from a coaching-site summary <strong>and presented as if it were a real past question</strong>. Every question is exactly one of two things, and the UI always says which: (1) verbatim from a real government PDF with a verified key (Mock Test 1), or (2) original content explicitly built for full syllabus coverage and marked as such (Mock Test 2).</p>
 
   <h2>Official pattern facts used in the Blueprint</h2>
   <p>Cross-verified across the official tet2dsc.apcfss.in portal (live-checked 5 Aug 2026), the AP TET 2026 June notification, and independent confirmation from Adda247, Testbook, Careerpower, Shiksha and the apteachers.in mirror. The CBT platform itself (Digialm) was confirmed by intercepting the actual <code>window.open()</code> call from the official portal's mock-test link — which is also the basis for this site's question-palette shapes/colours and its "Save &amp; Next persists, navigating away without saving discards your selection" behaviour, matched against Digialm's own public instructions page, not guessed. See the Blueprint page for the full fact table.</p>

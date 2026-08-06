@@ -31,67 +31,54 @@ Commissionerate of School Education, Government of Andhra Pradesh.
 - If you are relying on exact spelling/diacritics for serious study, cross-check
   against the source PDF in `assets/` — that's what it's there for.
 
-## Mock Test 2 — `real_2024_oct13.js` (150 Qs, 134 verbatim + 16 authored)
+## Mock Test 2 — `expert_predicted_2026.js` (150 Qs, 100% originally authored)
 
-From the real **Paper 1A, Urdu medium, 13 October 2024, Shift 2** sitting.
+Deliberately **not** another transcribed past paper. A real sitting only
+samples 30 questions per subject out of a much larger syllabus, so even a
+second genuine past paper would still miss named, in-scope topics by chance.
+Mock Test 2 was written to close that gap directly:
 
-- Source file: `assets/SOURCE_2024_Oct13_Shift2_Paper1A_Urdu.pdf` — a genuine
-  CBT export, but a **plain question paper**, not a question-paper-with-key
-  export (no colour-coded answers). The separate official key PDF could not be
-  retrieved (government portal 503 throughout collection).
-- **134 questions**: verbatim question/option text from the real PDF, with the
-  correct answer independently determined through subject-matter verification
-  (each cross-checked against standard reference facts — e.g. Ebbinghaus wrote
-  "On Memory", Samuel Kirk coined "learning disability", LCM(15,21)=105 — not
-  guessed).
-- **16 questions**: the source paper's actual text was ambiguous, underspecified,
-  or not independently verifiable with confidence (e.g. a garbled OCR-adjacent
-  option, or a fact with no authoritative single answer). Rather than present a
-  possibly-wrong answer as verified, these were swapped for an original,
-  unambiguous question on the *same topic* — marked `src:"authored"` in the
-  data file and flagged with a `note` explaining the swap. The results/review
-  screen shows an "Authored replacement" badge on these so it's never silently
-  presented as verbatim.
+- Built from a topic checklist covering the **complete official syllabus**,
+  subject by subject, in the same 5-section / 30-per-subject structure as the
+  real exam — including the 8 confirmed gap topics (Carl Rogers, Metacognition,
+  Skinner, Pavlov, Bandura, letter writing, degrees of comparison, question
+  tags, Time & Work, averages).
+- Every question matches the real exam's actual question *formats* observed
+  across both real papers (theorist-quote attribution, matching pairs,
+  "identify the incorrect statement", fill-in-the-blank grammar, word
+  problems) — not invented formats.
+- Every Maths answer was mechanically re-verified by running the arithmetic in
+  Python, independent of the value written in the question.
+- Urdu vocabulary was cross-checked against the verified real-paper
+  terminology in Mock Test 1 wherever the same concept appears in both
+  (اکتساب/learning, شخصیت/personality, مرحلہ/stage, etc.). A handful of terms
+  not present in either real paper (e.g. "Zone of Proximal Development") have
+  no verified official Urdu rendering to check against — disclosed, not
+  glossed over.
+- No per-question verbatim/authored split needed here (unlike Test 1) since
+  the whole test is originally written — declared once, not per-question.
 
-## Coverage Gap-Fill Drill — `coverage_supplement.js` (11 Qs, 100% original)
+## Real papers kept for reference, not loaded as a scored test
 
-Not a real paper — an insurance drill. Built by auditing the **official AP TET
-syllabus, topic by topic**, against every question in both real papers above,
-looking for syllabus topics that are explicitly in scope for 2026 but didn't
-happen to come up as the *direct subject* of a question in either real sitting
-sampled (a theorist named only as a wrong-answer distractor doesn't count as
-"tested"). Findings:
+- `assets/SOURCE_2024_Oct13_Shift2_Paper1A_Urdu.pdf` — Paper 1A, Urdu medium,
+  13 Oct 2024, Shift 2.
+- `assets/SOURCE_2024_Oct6_Shift1_Paper1_SGT_Urdu.pdf` — Paper 1 SGT, Urdu
+  medium, 6 Oct 2024, Shift 1.
 
-- **CDP**: Carl Rogers, Metacognition, and Skinner/Pavlov/Bandura (named in the
-  official syllabus, appeared only as distractors in the real papers).
-- **English**: letter-writing format, degrees of comparison, question tags.
-- **Maths**: Time & Work, and an explicit average/mean calculation.
-
-All 11 questions here are original, written to test exactly the gap identified,
-and marked `src:"authored"` with a `note` on every single one explaining which
-syllabus gap it targets. Never presented as a leaked or verbatim past question.
-
-## Reference-only, not loaded into any scored test
-
-- `assets/SOURCE_2024_Oct6_Shift1_Paper1_SGT_Urdu.pdf` — a third genuine AP TET
-  Paper 1 Urdu-medium paper (SGT, 6 Oct 2024, Shift 1), used only to
-  cross-check that the topic pattern is stable year-over-year (confirmed —
-  same CDP theorist roster, same Urdu-grammar/literature question style, same
-  Maths/EVS pedagogy-question format). Not loaded into the site because, like
-  Mock Test 2's source, it has no retrievable answer key and a second
-  "134-verbatim-plus-authored" test wasn't judged worth the added transcription
-  risk once the gap-fill drill covered the syllabus-breadth concern more
-  precisely.
+Both used to verify the topic pattern is stable year-over-year (confirmed).
+Neither has a retrievable official key (government portal 503 throughout
+collection), so neither is loaded into the scored engine. Their real value —
+confirming the pattern is stable — is folded into the Blueprint page and into
+how Mock Test 2 was designed.
 
 ## What is NOT in this project
 
 No question anywhere in the site was invented, paraphrased from memory, or
 reconstructed from a coaching-site summary **and presented as if it were a
-real past question**. Every question is one of exactly three things, and the
+real past question**. Every question is one of exactly two things, and the
 data file + UI always say which: (1) verbatim from a real government PDF with
-a verified key, (2) verbatim question text from a real government PDF with an
-independently-verified answer, both clearly labelled, or (3) original content
-explicitly marked `authored` with a note explaining why it exists.
+a verified key (Mock Test 1), or (2) original content explicitly built for
+full syllabus coverage and labelled as such (Mock Test 2).
 
 ## Official pattern facts used in `SYLLABUS_BLUEPRINT.md`
 
