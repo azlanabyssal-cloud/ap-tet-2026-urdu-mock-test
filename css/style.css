@@ -356,3 +356,11 @@ body.examlock main#app{max-width:none;margin:0;padding:0;min-height:100vh}
   box-shadow:0 20px 60px rgba(0,0,0,.3);max-height:90vh;overflow-y:auto;
 }
 .modal h3{margin:0 0 4px;font-size:1.2rem}
+
+/* image-based questions: the original exam image is the question */
+.qimgwrap{background:#fff;margin:4px 0 6px;text-align:center}
+.qimg{max-width:100%;height:auto;display:inline-block}
+.options.imgopts{flex-direction:row}
+.imgopts .opt{flex:1;justify-content:center;border-bottom:none;border-right:1px solid var(--exam-line)}
+.imgopts .opt:last-child{border-right:none}
+.imgopts .opt-label{min-width:0;font-size:1.05rem}

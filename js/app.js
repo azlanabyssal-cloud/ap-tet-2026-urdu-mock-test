@@ -7,14 +7,14 @@
   const APP = document.getElementById('app');
 
   const TESTS = [
-    { id:"test1", data: REAL_2025_DEC,
-      label:"Mock Test 1 — Real Paper",
-      tag:"Verbatim — the actual 13 Dec 2025 exam",
-      blurb:"150 questions verbatim from the official 13 Dec 2025 AP TET Paper 1A (Urdu medium) exam, with the government's own answer key. This is a genuine past paper — take it exactly like the real thing." },
-    { id:"test2", data: EXPERT_PREDICTED_2026,
-      label:"Mock Test 2 — Full-Syllabus Practice",
-      tag:"100% original — built to cover everything Test 1 can't",
-      blurb:"Not a past paper. 150 originally-written questions covering the complete official syllabus — every topic a real sitting can miss by only sampling 30 questions per subject, including named gaps (Carl Rogers, Metacognition, Skinner/Pavlov/Bandura, letter writing, degrees of comparison, question tags, Time & Work, averages) confirmed absent from the real papers in this project. Same format, same difficulty, same bilingual style as the real exam — written to be worth practicing on its own merits, not to imitate a leak." }
+    { id:"aug2026", data: REAL_AUG2026_URDU,
+      label:"Mock Test 1 — Real AP TET 9 Aug 2026",
+      tag:"Verbatim · Paper 1A Urdu medium · Shift 2, Set C",
+      blurb:"The actual paper (150 questions) as candidates saw it, taken straight from the official Commissionerate of School Education CBT export. Every question is the original image and the answer key is the board's own — nothing re-typed. One question was dropped by the board and is given as a full mark, exactly as the board did." },
+    { id:"dec2025", data: REAL_DEC2025_URDU,
+      label:"Mock Test 2 — Real AP TET 13 Dec 2025",
+      tag:"Verbatim · Paper 1A Urdu medium · Shift 1",
+      blurb:"The previous sitting (150 questions), same treatment: original question images, official key. Useful for seeing how the paper changed between December 2025 and August 2026." }
   ];
 
   function hasUrdu(s){ return /[؀-ۿ]/.test(s||""); }
@@ -25,7 +25,7 @@
       sec.questions.forEach((q,i)=>{
         out.push({
           key: sec.key, sectionTitle: sec.title, indexInSection: i,
-          n: q.n, en: q.en||null, ur: q.ur||null, opts: q.opts, optsUr: q.optsUr||null, ans: q.ans,
+          n: q.n, img: q.img||null, dropped: !!q.dropped, en: q.en||null, ur: q.ur||null, opts: q.opts||[null,null,null,null], optsUr: q.optsUr||null, ans: (q.ans===undefined?null:q.ans),
           note: q.note||null, src: q.src||null
         });
       });
@@ -112,14 +112,14 @@
     APP.innerHTML = `
       <section class="hero">
         <h1>AP TET 2026 — Paper 1 Mock Tests <span class="urdu" style="font-size:1.3rem;display:block;margin-top:4px">اردو میڈیم</span></h1>
-        <p class="sub">Two full-length, exam-accurate simulations — Child Development &amp; Pedagogy, Language&#8209;I Urdu, Language&#8209;II English, Mathematics, and Environmental Studies. Test 1 is the actual 13 Dec 2025 exam, verbatim. Test 2 is 150 originally-written questions built to cover the complete official syllabus — including exactly the topics a real sitting can miss just by only sampling 30 questions per subject.</p>
+        <p class="sub">Full-length simulations of the real AP TET Paper 1A (Urdu medium) — Child Development &amp; Pedagogy, Language&#8209;I Urdu, Language&#8209;II English, Mathematics and Environmental Studies. Both tests are genuine government papers shown exactly as printed, with the board's own answer keys.</p>
         <div class="hero-stats">
           <div class="stat"><b>2</b><span>Full mock tests</span></div>
-          <div class="stat"><b>300</b><span>Total questions</span></div>
+          <div class="stat"><b>300</b><span>Real questions</span></div>
           <div class="stat"><b>150</b><span>Minutes / test</span></div>
           <div class="stat"><b>0</b><span>Negative marking</span></div>
         </div>
-        <div class="urgent-banner">AP TET 2026 is being conducted 5–21 August 2026. If you're reading this during that window — good timing.</div>
+        <div class="urgent-banner">Questions and keys come straight from the official CBT exports — see Sources for how every key was verified.</div>
       </section>
 
       <div class="cards">${cards}</div>
@@ -127,14 +127,14 @@
       <div class="cards">
         <div class="card">
           <span class="tag">Study first</span>
-          <h3>What Will &amp; Won't Come</h3>
-          <p>The full exam blueprint — verified topic-by-topic breakdown of every subject, and what's explicitly out of scope for 2026.</p>
+          <h3>Exam Blueprint</h3>
+          <p>Section sizes, language layout and the dropped question, as read from the two real papers.</p>
           <button class="btn btn-ghost" data-nav="blueprint" style="width:fit-content">Read the Blueprint</button>
         </div>
         <div class="card">
           <span class="tag">Verify it yourself</span>
-          <h3>Every question traces to a source</h3>
-          <p>No invented-and-hidden questions. See exactly which questions are verbatim real, which were swapped for accuracy and why, and the original government exam PDFs.</p>
+          <h3>Sources &amp; Verification</h3>
+          <p>Both tests are the official papers, shown as printed. See how the answer keys were read and checked.</p>
           <button class="btn btn-ghost" data-nav="sources" style="width:fit-content">View Sources &amp; Verification</button>
         </div>
       </div>
@@ -161,7 +161,8 @@
         <h1>General Instructions</h1>
         <ol class="instr-list">
           <li>The test contains <b>${qs.length} questions</b> for a total of <b>${qs.length} marks</b>. Time allotted is <b>${qs.length} minutes</b>. The clock starts the moment you click "I am ready, begin the test" below and will auto-submit your test when time expires.</li>
-          <li>The question paper has ${test.data.sections.length} section${test.data.sections.length>1?'s':''} — ${test.data.sections.map(s=>`${s.title} (${s.questions.length})`).join(', ')}. Every question, unless it is itself a language-content question, is shown in English and Urdu where the source paper provided it.</li>
+          <li>The question paper has ${test.data.sections.length} sections — ${test.data.sections.map(s=>`${s.title} (${s.questions.length})`).join(', ')}. Each question appears exactly as in the real exam (the original image), so the English/Urdu layout is authentic. Choose option 1–4 shown below the question.</li>
+          ${(test.data.meta.dropped||[]).length ? `<li>Question ${test.data.meta.dropped.join(', ')} ${test.data.meta.dropped.length>1?'were':'was'} dropped by the board after the exam ("full marks awarded to all candidates") and is counted as correct for everyone, as the board did.</li>` : ''}
           <li>Every question is a Multiple Choice Question with 4 options, only one of which is correct. Click an option to select it.</li>
           <li><b>There is no negative marking.</b> Wrong and unattempted answers both score 0 — never a penalty. Attempt every question.</li>
           <li>Use <b>Save &amp; Next</b> to save your answer and move on, <b>Clear Response</b> to deselect your chosen option, and <b>Mark for Review &amp; Next</b> to flag a question to revisit — marked questions are still counted if answered.</li>
@@ -321,7 +322,7 @@
     }
     const sectionTotal = state.questions.filter(x=>x.key===q.key).length;
 
-    const optionsHtml = q.opts.map((optText,oi)=>{
+    const optionsHtml = q.img ? [0,1,2,3].map(oi=>{ const selected = state.draft===oi; return `<label class="opt ${selected?'selected':''}" data-opt="${oi}"><input type="radio" name="opt" ${selected?'checked':''}><span class="opt-label">${oi+1}</span></label>`; }).join('') : q.opts.map((optText,oi)=>{
       const selected = state.draft===oi;
       const isUr = hasUrdu(optText);
       const urText = q.optsUr ? q.optsUr[oi] : null;
@@ -344,9 +345,10 @@
           <span class="badge">Correct: +1 &nbsp;Wrong: 0</span>
           <span style="margin-left:auto;color:var(--marked);font-weight:700">${state.marked[i]?'Marked for review':''}</span>
         </div>
+        ${q.img ? `<div class="qimgwrap"><img class="qimg" src="${q.img}" alt="Question ${q.n}"></div>` : ''}
         ${q.en ? `<div class="qtext">${q.en}</div>` : ''}
         ${q.ur ? `<div class="qtext-ur urdu">${q.ur}</div>` : ''}
-        <div class="options">${optionsHtml}</div>
+        <div class="options ${q.img?'imgopts':''}">${optionsHtml}</div>
         <div class="navbtns">
           <div class="left">
             <button class="btn btn-examaction" id="prevBtn" ${i===0?'disabled':''}>← Previous</button>
@@ -454,6 +456,7 @@
     state.questions.forEach((q,i)=>{
       perSection[q.key].total++;
       const a = state.answers[i];
+      if(q.dropped){ correct++; perSection[q.key].correct++; return; }
       if(a===null) skipped++;
       else if(a===q.ans){ correct++; perSection[q.key].correct++; }
       else incorrect++;
@@ -464,9 +467,9 @@
 
     const reviewHtml = state.questions.map((q,i)=>{
       const a = state.answers[i];
-      const status = a===null ? 'skipped' : (a===q.ans ? 'correct' : 'incorrect');
-      const statusLabel = status==='skipped' ? 'Not answered' : (status==='correct' ? 'Correct' : 'Incorrect');
-      const optionsHtml = q.opts.map((optText,oi)=>{
+      const status = q.dropped ? 'correct' : (a===null ? 'skipped' : (a===q.ans ? 'correct' : 'incorrect'));
+      const statusLabel = q.dropped ? 'Dropped by board — full mark awarded' : (status==='skipped' ? 'Not answered' : (status==='correct' ? 'Correct' : 'Incorrect'));
+      const optionsHtml = q.img ? [0,1,2,3].map(oi=>{ let cls=''; if(oi===q.ans) cls='correct'; else if(oi===a && a!==q.ans && !q.dropped) cls='incorrect'; return `<div class="opt ${cls}"><span class="opt-label">${oi+1}</span></div>`; }).join('') : q.opts.map((optText,oi)=>{
         let cls='';
         if(oi===q.ans) cls='correct';
         else if(oi===a && a!==q.ans) cls='incorrect';
@@ -481,9 +484,10 @@
             <span class="status-pill ${status}">${statusLabel}</span>
             ${q.src==='authored' ? `<span class="status-pill" style="background:#eef2f6;color:#5a6b7a">Authored replacement</span>` : ''}
           </div>
-          ${q.en ? `<div class="qtext">${q.en}</div>` : ''}
+          ${q.img ? `<div class="qimgwrap"><img class="qimg" src="${q.img}" alt="Question ${q.n}"></div>` : ''}
+        ${q.en ? `<div class="qtext">${q.en}</div>` : ''}
           ${q.ur ? `<div class="qtext-ur urdu">${q.ur}</div>` : ''}
-          <div class="options">${optionsHtml}</div>
+          <div class="options ${q.img?'imgopts':''}">${optionsHtml}</div>
           ${q.note ? `<p style="margin-top:10px;font-size:.78rem;color:var(--ink-soft)">ⓘ ${q.note}</p>` : ''}
         </div>
       `;
